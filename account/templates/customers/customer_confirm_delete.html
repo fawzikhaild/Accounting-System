@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">تأكيد الحذف</h2>
+
+    <p class="text-center">هل أنت متأكد أنك تريد حذف العميل: <strong>{{ customer.name }}</strong>؟</p>
+    <form method="POST" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">نعم، حذف العميل</button>
+        <a href="{% url 'customer_list' %}" class="btn btn-secondary">إلغاء</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النظام المحاسبي</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+
+    <!-- Toastr CSS for Beautiful Notifications -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS (Optional) -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* تخصيص للرسوم المتحركة على الأزرار */
+        .btn-custom {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- jQuery (Required for Toastr and Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- Custom JS (For Animations and Notifications) -->
+    <script>
+        // عرض التنبيهات باستخدام Toastr بعد إرسال الفورم
+        {% if messages %}
+            {% for message in messages %}
+                toastr.success("{{ message }}", "نجاح", { timeOut: 3000 });
+            {% endfor %}
+        {% endif %}
+
+        // تخصيص الرسوم المتحركة على الأزرار
+        $(document).ready(function() {
+            // إضافة الرسوم المتحركة على الأزرار
+            $('.btn').addClass('animate__animated animate__pulse animate__infinite');  // الرسوم المتحركة للأزرار
+            
+            // تفعيل عملية إرسال البيانات عبر AJAX عند إرسال الفورم
+            $('form').on('submit', function(e) {
+                e.preventDefault();  // منع الإرسال التقليدي للفورم
+                
+                var form = $(this);
+                var url = form.attr('action');  // الحصول على الرابط
+                var method = form.attr('method');  // طريقة الإرسال
+                var data = form.serialize();  // تحويل بيانات الفورم
+                
+                $.ajax({
+                    url: url,
+                    method: method,
+                    data: data,
+                    success: function(response) {
+                        // عند النجاح
+                        toastr.success("تمت العملية بنجاح!", "نجاح", { timeOut: 3000 });
+                        // يمكن إضافة إجراءات إضافية مثل تحديث جزء من الصفحة
+                    },
+                    error: function(xhr, status, error) {
+                        // عند حدوث خطأ
+                        toastr.error("حدث خطأ أثناء تنفيذ العملية!", "خطأ", { timeOut: 3000 });
+                    }
+                });
+            });
+
+            // التحقق من وجود التوكن عند تحميل الصفحة
+            function checkAuthToken() {
+                const token = localStorage.getItem('access_token');  // استرجاع التوكن من localStorage
+                if (!token) {
+                    // إذا لم يكن هناك توكن، إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+                    window.location.href = '/login';  // ضع هنا رابط صفحة تسجيل الدخول الخاصة بك
+                }
+            }
+
+            // التحقق من التوكن عند تحميل الصفحة
+            checkAuthToken();
+        });
+
+        // دالة لإرسال الطلبات مع التوكن في الـ Header
+        function sendRequestWithToken(url, method, data = {}, callback) {
+            const token = localStorage.getItem('access_token');  // استرجاع التوكن من localStorage
+
+            if (token) {
+                $.ajax({
+                    url: url,
+                    method: method,
+                    headers: {
+                        'Authorization': 'Bearer ' + token  // إرسال التوكن في الـ headers
+                    },
+                    data: data,
+                    success: function(response) {
+                        callback(response);  // استدعاء الكولباك عند النجاح
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.status === 401) {
+                            // التعامل مع التوكن المنتهي الصلاحية
+                            refreshToken();
+                        }
+                        console.log('Error: ' + error);
+                    }
+                });
+            } else {
+                console.log("لا يوجد توكن.");
+            }
+        }
+
+        // دالة لتحديث التوكن إذا كان منتهي الصلاحية
+        function refreshToken() {
+            const refreshToken = localStorage.getItem('refresh_token');  // استرجاع التوكن المحسّن
+
+            if (refreshToken) {
+                $.ajax({
+                    url: '{% url "token_refresh" %}',  // رابط API لتحديث التوكن
+                    method: 'POST',
+                    data: {
+                        refresh: refreshToken
+                    },
+                    success: function(data) {
+                        // تحديث التوكن في localStorage
+                        localStorage.setItem('access_token', data.access);
+                        console.log("تم تحديث التوكن بنجاح.");
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('خطأ في تحديث التوكن: ' + error);
+                    }
+                });
+            }
+        }
+
+        // دالة لتسجيل الخروج
+        function logout() {
+            localStorage.removeItem('access_token');  // إزالة التوكن
+            localStorage.removeItem('refresh_token');  // إزالة التوكن المحسّن
+            window.location.href = '/login';  // إعادة التوجيه إلى صفحة تسجيل الدخول
+        }
+
+        // ربط دالة تسجيل الخروج بزر "تسجيل الخروج"
+        $('#logout-btn').click(function() {
+            logout();
+        });
+    </script>
+
+    <!-- زر تسجيل الخروج في HTML -->
+    {% comment %} <button id="logout-btn" class="btn btn-danger">تسجيل الخروج</button> {% endcomment %}
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">عرض الموردين</h2>
+
+    <!-- أزرار إضافة وتصدير -->
+    <div class="text-end mb-4">
+        <a href="{% url 'vendor_create' %}" class="btn btn-success">إضافة مورد جديد</a>
+        <a href="{% url 'export_vendors_csv' %}" class="btn btn-info">تصدير إلى CSV</a>
+        <a href="{% url 'export_vendors_excel' %}" class="btn btn-warning">تصدير إلى Excel</a>
+    </div>
+
+    <!-- زر العودة إلى الصفحة الرئيسية -->
+    <div class="text-start mb-4">
+        <a href="{% url 'home' %}" class="btn btn-secondary">الرجوع إلى الصفحة الرئيسية</a>
+    </div>
+
+    <!-- جدول عرض الموردين -->
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>الاسم</th>
+                <th>البريد الإلكتروني</th>
+                <th>رقم الهاتف</th>
+                <th>الرصيد</th>
+                <th>العنوان</th>
+                <th>الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vendor in vendors %}
+            <tr>
+                <td>{{ vendor.id }}</td>
+                <td>{{ vendor.name }}</td>
+                <td>{{ vendor.email }}</td>
+                <td>{{ vendor.phone }}</td>
+                <td>{{ vendor.balance }}</td>
+                <td>{{ vendor.address }}</td>
+                <td>
+                    <a href="{% url 'vendor_detail' vendor.id %}" class="btn btn-info btn-sm">تفاصيل</a>
+                    <a href="{% url 'vendor_edit' vendor.id %}" class="btn btn-warning btn-sm">تعديل</a>
+                    <a href="{% url 'vendor_delete' vendor.id %}" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من حذف هذا المورد؟')">حذف</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="animate__animated animate__fadeIn">قائمة الموردين</h2>
+
+<!-- إضافة زر العودة إلى الصفحة الرئيسية وزر إضافة مورد جديد بجانب بعض -->
+<div class="d-flex justify-content-start mb-3">
+    <a href="{% url 'home' %}" class="btn btn-secondary me-2">العود إلى الصفحة الرئيسية</a>
+    <a href="{% url 'vendor_create' %}" class="btn btn-primary">إضافة مورد جديد</a>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>الاسم</th>
+            <th>البريد الإلكتروني</th>
+            <th>رقم الهاتف</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vendor in vendors %}
+            <tr>
+                <td>{{ vendor.name }}</td>
+                <td>{{ vendor.email }}</td>
+                <td>{{ vendor.phone }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

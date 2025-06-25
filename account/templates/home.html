@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - النظام المحاسبي</title>
+    <!-- إضافة Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- إضافة مكتبة الرسوم المتحركة -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* تخصيص بعض الأزرار */
+        .card-body {
+            text-align: center;
+            padding: 30px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* تأثير للأزرار عند المرور عليها */
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+        }
+
+        /* إضافة بعض التباعد بين الأقسام */
+        .row {
+            margin-bottom: 30px;
+        }
+
+        /* تخصيص شريط التنقل العلوي */
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .navbar .nav-link {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل العلوي -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">النظام المحاسبي</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="تبديل التنقل">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">خروج</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <!-- العنوان الرئيسي -->
+        <div class="row justify-content-center">
+            <h1 class="animate__animated animate__fadeIn">مرحبًا بك في النظام المحاسبي</h1>
+        </div>
+
+        <!-- الأقسام الرئيسية -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">المعاملات</h4>
+                        <p>إدارة المعاملات المالية الخاصة بك</p>
+                        <a href="{% url 'transaction_list' %}" class="btn btn-primary">عرض المعاملات</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">الفواتير</h4>
+                        <p>إدارة الفواتير المدفوعة والغير مدفوعة</p>
+                        <a href="{% url 'invoice_list' %}" class="btn btn-primary">عرض الفواتير</a>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">الدفعات</h4>
+                        <p>إدارة المدفوعات المدفوعة والغير مدفوعة</p>
+                        <a href="{% url 'payment_list' %}" class="btn btn-primary">عرض الدفعات</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الأقسام الإضافية -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">النفقات</h4>
+                        <p>إضافة وإدارة النفقات الشهرية</p>
+                        <a href="{% url 'expense_list' %}" class="btn btn-primary">إضافة نفقات</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">العملاء</h4>
+                        <p>إدارة تفاصيل العملاء</p>
+                        <a href="{% url 'customer_list' %}" class="btn btn-primary">عرض العملاء</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">الموردين</h4>
+                        <p>إدارة الموردين وإضافة تفاصيلهم</p>
+                        <a href="{% url 'vendor_list' %}" class="btn btn-primary">عرض الموردين</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- إضافة حساب -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">إضافة حساب</h4>
+                        <p>إضافة حساب جديد للنظام المحاسبي</p>
+                        <a href="{% url 'account_list' %}" class="btn btn-success">إضافة حساب جديد</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- إضافة Bootstrap و JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // التحقق من التوكن في localStorage عند تحميل الصفحة
+        function checkAuthToken() {
+            const token = localStorage.getItem('access_token');  // استرجاع التوكن من localStorage
+            if (!token) {
+                // إذا لم يكن هناك توكن، إعادة توجيه المستخدم إلى صفحة تسجيل الدخول
+                window.location.href = '{% url "home" %}';  // ضع هنا رابط صفحة تسجيل الدخول الخاصة بك
+            }
+        }
+
+        // التحقق من التوكن عند تحميل الصفحة
+        checkAuthToken();
+    </script>
+</body>
+</html>

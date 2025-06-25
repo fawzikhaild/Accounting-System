@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">تفاصيل العميل - #{{ customer.id }}</h2>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>الاسم:</strong> {{ customer.name }}</li>
+        <li class="list-group-item"><strong>البريد الإلكتروني:</strong> {{ customer.email }}</li>
+        <li class="list-group-item"><strong>رقم الهاتف:</strong> {{ customer.phone }}</li>
+        <li class="list-group-item"><strong>العنوان:</strong> {{ customer.address }}</li>
+        <li class="list-group-item"><strong>الملاحظات:</strong> {{ customer.notes }}</li>
+    </ul>
+    <a href="{% url 'customer_list' %}" class="btn btn-primary mt-3">رجوع إلى قائمة العملاء</a>
+</div>
+{% endblock %}

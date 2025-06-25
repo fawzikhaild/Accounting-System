@@ -1,0 +1,98 @@
+<!-- vendor_form.html -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة مورد جديد</title>
+    <!-- إضافة Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 10px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .alert-success {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header text-center bg-primary text-white">
+                        <h4>إضافة مورد جديد</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label for="name">اسم المورد</label>
+                                {{ form.name }}
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="email">البريد الإلكتروني</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="phone">رقم الهاتف</label>
+                                {{ form.phone }}
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-custom">إنشاء المورد</button>
+                                <a href="{% url 'vendor_list' %}" class="btn btn-secondary">رجوع إلى قائمة الموردين</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- رسالة نجاح عند إضافة المورد -->
+        {% if messages %}
+            <div class="alert alert-success mt-3">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- إضافة Bootstrap و JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // إضافة بعض التأثيرات عند إرسال الفورم
+        document.querySelector('form').addEventListener('submit', function() {
+            const button = document.querySelector('.btn-custom');
+            button.innerHTML = 'جاري إضافة المورد...';
+            button.disabled = true;
+        });
+    </script>
+</body>
+</html>

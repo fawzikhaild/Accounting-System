@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">عرض العملاء</h2>
+
+    <!-- أزرار إضافة وتصفية -->
+    <div class="text-end mb-4">
+        <a href="{% url 'customer_create' %}" class="btn btn-success btn-custom">إضافة عميل جديد</a>
+        <a href="{% url 'export_customers_csv' %}" class="btn btn-info btn-custom">تصدير إلى CSV</a>
+        <a href="{% url 'export_customers_excel' %}" class="btn btn-warning btn-custom">تصدير إلى Excel</a>
+    </div>
+
+    <!-- زر العودة إلى الصفحة الرئيسية -->
+    <div class="text-start mb-4">
+        <a href="{% url 'home' %}" class="btn btn-secondary">الرجوع إلى الصفحة الرئيسية</a>
+    </div>
+
+    <!-- جدول عرض العملاء -->
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>الاسم</th>
+                <th>البريد الإلكتروني</th>
+                <th>رقم الهاتف</th>
+                <th>تاريخ الإنشاء</th>
+                <th>الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.created_at }}</td>
+                <td>
+                    <a href="{% url 'customer_detail' customer.id %}" class="btn btn-info btn-sm">تفاصيل</a>
+                    <a href="{% url 'customer_edit' customer.id %}" class="btn btn-warning btn-sm">تعديل</a>
+                    <a href="{% url 'customer_delete' customer.id %}" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من حذف هذا العميل؟')">حذف</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

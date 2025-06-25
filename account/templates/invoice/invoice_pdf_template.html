@@ -1,0 +1,64 @@
+<!-- invoice_pdf_template.html -->
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .invoice-header h1 {
+            margin: 0;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .total {
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-header">
+        <h1>فاتورة #{{ invoice.id }}</h1>
+        <p>تاريخ الفاتورة: {{ invoice.invoice_date }}</p>
+    </div>
+
+    <table class="invoice-table">
+        <thead>
+            <tr>
+                <th>العميل</th>
+                <th>المبلغ المستحق</th>
+                <th>المبلغ المدفوع</th>
+                <th>الحالة</th>
+                <th>العملة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ invoice.customer.name }}</td>
+                <td>{{ invoice.amount_due }}</td>
+                <td>{{ invoice.amount_paid }}</td>
+                <td>{{ invoice.status }}</td>
+                <td>{{ invoice.currency }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="total">
+        <p><strong>المبلغ الإجمالي: </strong>{{ invoice.amount_due }}</p>
+    </div>
+</body>
+</html>

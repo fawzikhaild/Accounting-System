@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الفاتورة</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <h1>تفاصيل الفاتورة #{{ invoice.id }}</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th>العميل</th>
+                <td>{{ invoice.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>المبلغ المستحق</th>
+                <td>{{ invoice.amount_due }}</td>
+            </tr>
+            <tr>
+                <th>المبلغ المدفوع</th>
+                <td>{{ invoice.amount_paid }}</td>
+            </tr>
+            <tr>
+                <th>الضرائب</th>
+                <td>{{ invoice.tax }}</td>
+            </tr>
+            <tr>
+                <th>الخصومات</th>
+                <td>{{ invoice.discount }}</td>
+            </tr>
+            <tr>
+                <th>الحالة</th>
+                <td>{{ invoice.status }}</td>
+            </tr>
+            <tr>
+                <th>التاريخ</th>
+                <td>{{ invoice.invoice_date }}</td>
+            </tr>
+            <tr>
+                <th>العملة</th>
+                <td>{{ invoice.currency }}</td>
+            </tr>
+        </table>
+        <h3>المدفوعات المرتبطة بهذه الفاتورة</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>المبلغ المدفوع</th>
+                    <th>تاريخ الدفع</th>
+                    <th>طريقة الدفع</th>
+                    <th>ملاحظات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{ payment.amount }}</td>
+                    <td>{{ payment.payment_date }}</td>
+                    <td>{{ payment.payment_method }}</td>
+                    <td>{{ payment.notes }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% comment %} <a href="{% url 'invoice_pdf' invoice.id %}" class="btn btn-primary">طباعة الفاتورة بصيغة PDF</a> {% endcomment %}
+
+</body>
+</html>

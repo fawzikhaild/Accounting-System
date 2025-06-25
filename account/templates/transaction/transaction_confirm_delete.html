@@ -1,0 +1,27 @@
+<!-- transaction_confirm_delete.html -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الحذف - النظام المحاسبي</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container py-5">
+        <h1>هل أنت متأكد من حذف هذه المعاملة؟</h1>
+        <p><strong>المبلغ:</strong> {{ transaction.amount }}</p>
+        <p><strong>التاريخ:</strong> {{ transaction.transaction_date }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">نعم، حذف المعاملة</button>
+            <a href="{% url 'transaction_list' %}" class="btn btn-secondary">إلغاء</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

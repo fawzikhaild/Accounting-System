@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container py-5">
+        <h2 class="text-center mb-4">تعديل الحساب</h2>
+        
+        <!-- نموذج تعديل الحساب -->
+        <form method="POST" action="{% url 'account_list' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">اسم الحساب</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ account.name }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="account_type" class="form-label">نوع الحساب</label>
+                <select class="form-control" id="account_type" name="account_type" required>
+                    <option value="asset" {% if account.account_type == 'asset' %}selected{% endif %}>أصل</option>
+                    <option value="liability" {% if account.account_type == 'liability' %}selected{% endif %}>التزام</option>
+                    <option value="equity" {% if account.account_type == 'equity' %}selected{% endif %}>حقوق ملكية</option>
+                    <option value="revenue" {% if account.account_type == 'revenue' %}selected{% endif %}>إيرادات</option>
+                    <option value="expense" {% if account.account_type == 'expense' %}selected{% endif %}>مصاريف</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="balance" class="form-label">الرصيد</label>
+                <input type="number" class="form-control" id="balance" name="balance" value="{{ account.balance }}" step="0.01" required>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg mt-4">تحديث الحساب</button>
+        </form>
+
+        <!-- زر العودة إلى الصفحة السابقة -->
+        <a href="{% url "account_list" %}" class="btn btn-secondary btn-lg mt-4">العودة</a>
+    </div>
+{% endblock %}

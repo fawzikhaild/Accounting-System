@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="animate__animated animate__fadeIn">قائمة المعاملات</h2>
+
+<!-- إضافة زر العودة إلى الصفحة الرئيسية وزر إضافة معاملة جديدة بجانب بعض -->
+<div class="d-flex justify-content-start mb-3">
+    <a href="{% url 'home' %}" class="btn btn-secondary me-2">العودة إلى الصفحة الرئيسية</a>
+    <a href="{% url 'transaction_create' %}" class="btn btn-primary">إضافة معاملة جديدة</a>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>التاريخ</th>
+            <th>الحساب</th>
+            <th>المبلغ</th>
+            <th>الوصف</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.transaction_date }}</td>
+                <td>{{ transaction.account.name }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.description }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

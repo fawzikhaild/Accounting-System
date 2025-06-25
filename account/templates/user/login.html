@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <!-- إضافة Bootstrap و Toastr لعرض الرسائل -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">تسجيل الدخول</h2>
+
+        <form id="login-form">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">اسم المستخدم</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">كلمة المرور</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">تسجيل الدخول</button>
+        </form>
+
+        <!-- رابط لإنشاء حساب جديد -->
+        <div class="mt-3 text-center">
+            <p>ليس لديك حساب؟ <a href="{% url 'signup' %}">إنشاء حساب جديد</a></p>
+        </div>
+    </div>
+
+    <!-- إضافة JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        // الكود الخاص بتسجيل الدخول باستخدام AJAX
+        $('#login-form').on('submit', function(e) {
+            e.preventDefault();  // منع إرسال النموذج بالطريقة التقليدية
+
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();  // استرجاع التوكن CSRF
+
+            $.ajax({
+                url: '{% url "login" %}',  // تأكد من أن لديك URL مخصص لتسجيل الدخول
+                method: 'POST',
+                data: {
+                    'username': username,
+                    'password': password,
+                    'csrfmiddlewaretoken': csrfToken
+                },
+                success: function(response) {
+                    // إذا كانت الاستجابة ناجحة، سيتم تخزين التوكن
+                    localStorage.setItem('access_token', response.access_token);
+                    localStorage.setItem('refresh_token', response.refresh_token);
+
+                    // عرض رسالة نجاح
+                    toastr.success("تم تسجيل الدخول بنجاح!", "نجاح", { timeOut: 3000 });
+
+                    // التوجيه إلى الصفحة الرئيسية بعد الحصول على التوكن
+                    window.location.href = '{% url "home" %}';  // التوجيه إلى الصفحة الرئيسية
+                },
+                error: function(xhr, status, error) {
+                    // في حالة حدوث خطأ
+                    toastr.error("اسم المستخدم أو كلمة المرور غير صحيحة.", "خطأ", { timeOut: 3000 });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

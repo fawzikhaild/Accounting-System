@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الخروج - النظام المحاسبي</title>
+    <!-- إضافة Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* تخصيص لبعض الأزرار */
+        .btn-lg {
+            font-size: 1.25rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 100px;
+        }
+
+        .card-body {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        /* تخصيص التصميم */
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1>تم تسجيل الخروج بنجاح</h1>
+                <p>لقد تم تسجيل خروجك من النظام بنجاح. إذا أردت العودة إلى صفحة تسجيل الدخول، يمكنك الضغط على الزر أدناه.</p>
+                <a href="{% url 'login' %}" class="btn btn-success btn-lg">الذهاب إلى صفحة تسجيل الدخول</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- إضافة Bootstrap و JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!-- payment_detail.html -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الدفعة - #{{ payment.id }}</title>
+
+    <!-- تضمين Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- تخصيص الأنماط -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card-header {
+            background-color: #17a2b8;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+        .btn-custom {
+            border-radius: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <!-- بطاقة تفاصيل الدفعة -->
+    <div class="card">
+        <div class="card-header">
+            <h5>تفاصيل الدفعة - #{{ payment.id }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><strong>الفاتورة:</strong> {{ payment.invoice.id }}</li>
+                        <li><strong>المبلغ المدفوع:</strong> {{ payment.amount }}</li>
+                        <li><strong>تاريخ الدفع:</strong> {{ payment.payment_date }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li><strong>طريقة الدفع:</strong> {{ payment.payment_method }}</li>
+                        <li><strong>الحالة:</strong> {{ payment.status }}</li>
+                        <li><strong>ملاحظات:</strong> {{ payment.notes }}</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="{% url 'payment_list' %}" class="btn btn-primary btn-custom px-4 py-2">رجوع إلى قائمة الدفعات</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- تضمين Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
